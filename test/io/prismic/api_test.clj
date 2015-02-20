@@ -38,15 +38,15 @@
 ;  (testing "count blog posts"
 ;    (is= (results-size (search lbc :blog nil)) 6))
 
-;  (testing "fulltext search"
-;    (let [query "[[:d = fulltext(my.job-offer.name, \"Pastry dresser\")]]"
-;          response (search lbc :everything query)]
-;      (is= (-> (results response) first :id) "UkL0gMuvzYUANCpf")))
+  (testing "fulltext search"
+    (let [query "[[:d = fulltext(my.job-offer.name, \"Pastry dresser\")]]"
+          response (search lbc :everything query)]
+      (is= (-> (results response) first .getId) "UlfoxUnM0wkXYXbh")))
 
 ;  (testing "fulltext search in a future release"
 ;    (let [query "[[:d = fulltext(my.article.title, \"release\")]]"
 ;          response (search test "U0VaPwEAADcA2kNS" :everything query)]
-;      (is= (-> (results response) first :id) "U0VaMQEAADYA2kMz")))
+;      (is= (-> (results response) first .getId) "U0VaMQEAADYA2kMz")))
 
 ;  (testing "find by id"
 ;    (let [id "UkL0gMuvzYUANCpf" doc (get-by-id lbc id)]
