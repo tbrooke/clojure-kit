@@ -33,20 +33,20 @@
   (testing "get ref"
     (is= (-> (get-ref lbc :Master) .getRef) "UlfoxUnM08QWYXdl")))
 
-;(deftest search-documents
+(deftest search-documents
 
 ;  (testing "count blog posts"
-;    (is= (:results_size (search lbc :blog {})) 6))
+;    (is= (results-size (search lbc :blog nil)) 6))
 
 ;  (testing "fulltext search"
-;    (let [query {:q (str "[[:d = fulltext(my.job-offer.name, \"Pastry dresser\")]]")}
+;    (let [query "[[:d = fulltext(my.job-offer.name, \"Pastry dresser\")]]"
 ;          response (search lbc :everything query)]
-;      (is= (-> (:results response) first :id) "UkL0gMuvzYUANCpf")))
+;      (is= (-> (results response) first :id) "UkL0gMuvzYUANCpf")))
 
 ;  (testing "fulltext search in a future release"
-;    (let [query {:q (str "[[:d = fulltext(my.article.title, \"release\")]]")}
+;    (let [query "[[:d = fulltext(my.article.title, \"release\")]]"
 ;          response (search test "U0VaPwEAADcA2kNS" :everything query)]
-;      (is= (-> (:results response) first :id) "U0VaMQEAADYA2kMz")))
+;      (is= (-> (results response) first :id) "U0VaMQEAADYA2kMz")))
 
 ;  (testing "find by id"
 ;    (let [id "UkL0gMuvzYUANCpf" doc (get-by-id lbc id)]
@@ -55,12 +55,13 @@
 ;  (testing "find by id a document in a future release"
 ;    (let [id "U0VaMQEAADYA2kMz"
 ;          doc (get-by-id test "U0VaPwEAADcA2kNS" id)]
-;      (is= (:id doc) id)))
+;      (is= (.getId doc) id)))
 
-;  (testing "find by bookmark"
-;    (let [doc (get-by-bookmark lbc :stores)
-;          text (-> (get-fragment doc :title) :value first :text)]
-;      (is= text "Don't be a stranger!"))))
+  (testing "find by bookmark"
+    (let [doc (get-by-bookmark lbc :stores)
+          text (get-text doc :article.title)]
+      (is= text "Don't be a stranger!")))
+)
 
 ;  (testing "find by bookmark in a future released"
 ;    (let [doc (get-by-bookmark test "U0VaPwEAADcA2kNS" :home)

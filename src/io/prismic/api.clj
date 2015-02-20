@@ -27,14 +27,17 @@
 
 (defn oauth-initiate [api] (.getOAuthInitiateEndpoint api))
 
-(defn search ([api ref form query]
-  (-> api
-    (.getForm (name form))
-    (.ref (name ref))
-    (.query query)
-    .submit
+(defn search
+  ([api form q] (search api (master-ref api) form q))
+  ([api ref form q]
+    (-> api
+      (.getForm (name form))
+      (.ref (name ref))
+      (.query q)
+      .submit
+      )
     )
-  ))
+  )
 
 (defn get-by-id
   ([api id] (get-by-id api (master-ref api) id))
@@ -52,8 +55,14 @@
   ([api ref name] (get-by-id api ref (get-bookmark api name)))
   )
 
+; Response
+
+(defn results-size [response] (.getTotalResultsSize response))
+
+(defn results [response] (.getResults response))
+
 ; Documents
 
-(defn get-fragment
-  ([document name] (.get document name))
-  )
+(defn get-fragment ([document frag] (.get document (name frag))))
+
+(defn get-text ([document frag] (.getText document (name frag))))
