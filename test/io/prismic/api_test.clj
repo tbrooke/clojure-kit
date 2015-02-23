@@ -68,25 +68,25 @@
 ;          text (-> (get-fragment doc :title) :value first :text)]
 ;      (is= text "Released in the future")))
 
-;(deftest select-fragments
-;  (let [link-slug (fn [link] (-> link :value :document :slug))
-;        job (get-by-id lbc "UkL0gMuvzYUANCpi")
-;        post (get-by-id micro "UrDcEAEAAKUbpbND")]
+(deftest select-fragments
+  (let [job (get-by-id lbc "UlfoxUnM0wkXYXbs")
+        post (get-by-id micro "UrDcEAEAAKUbpbND")]
 
-;    (testing "get image"
-;      (is= (:type (get-fragment job :name)) "StructuredText"))
+    (testing "get image"
+      (is= (type (get-fragment job :job-offer.name)) io.prismic.Fragment$StructuredText))
 
-;    (testing "get one link"
-;      (is= (link-slug (get-fragment job :location)) "new-york-fifth-avenue"))
+    (testing "get one link"
+      (is= (get-slug (get-fragment job :job-offer.location)) "new-york-fifth-avenue"))
 
-;    (testing "get all links"
-;      (let [links (get-fragments job :location)]
-;        (is= (link-slug (first links)) "new-york-fifth-avenue")
-;        (is= (link-slug (second links)) "tokyo-roppongi-hills")))
+    (testing "get all links"
+      (let [links (get-fragments job :job-offer.location)]
+        (is= (get-slug (first links)) "new-york-fifth-avenue")
+        (is= (get-slug (second links)) "tokyo-roppongi-hills")))
 
-;    (testing "get structured text"
-;      (let [f (get-fragment post :docs)]
-;        (is= "UrDejAEAAFwMyrW9" (-> f :value first :linktodoc :value :document :id))
-;        (is= "paragraph" (-> f :value first :desc :value first :type))
-;        (is= "UrDmKgEAALwMyrXA" (-> f :value second :linktodoc :value :document :id))))))
+    (testing "get structured text"
+      (let [f (.getDocs (get-fragment post :docchapter.docs))]
+        (is= "UrDejAEAAFwMyrW9" (-> f first (get-link :linktodoc) .getId))
+        (is= io.prismic.Fragment$StructuredText (-> f first (get-fragment :desc) type))
+        (is= "UrDmKgEAALwMyrXA" (-> f second (get-link :linktodoc) .getId))))
 
+    ))

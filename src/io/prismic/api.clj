@@ -65,4 +65,12 @@
 
 (defn get-fragment ([document frag] (.get document (name frag))))
 
+(defn get-fragments ([document frag] (.getAll document (name frag))))
+
 (defn get-text ([document frag] (.getText document (name frag))))
+
+(defn get-link ([document frag] (.getLink document (name frag))))
+
+(defn get-structured-text ([document frag] (.getStructuredText document (name frag))))
+
+(defn get-slug ([fragment] (.getSlug fragment)))
