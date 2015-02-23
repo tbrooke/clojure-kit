@@ -63,7 +63,10 @@
           (^String resolve [this ^io.prismic.Document document] (resolveLink (.asDocumentLink document)))
           ))
 
-(defn render [fragment linkResolver] (.asHtml fragment (link-resolver linkResolver)))
+(defn render
+  ([fragment linkResolver] (.asHtml fragment (link-resolver linkResolver)))
+  ([fragment] (.asHtml fragment))
+  )
 
 ; Response
 
@@ -84,3 +87,5 @@
 (defn get-structured-text ([document frag] (.getStructuredText document (name frag))))
 
 (defn get-slug ([fragment] (.getSlug fragment)))
+
+(defn image-view ([image view] (.getView image (name view))))

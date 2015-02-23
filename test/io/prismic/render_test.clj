@@ -7,8 +7,7 @@
 (def public (get-api "https://test-public.prismic.io/api"))
 (def micro (get-api "https://micro.prismic.io/api"))
 (defn- resolver [link]
-  (let [document (-> link :value :document)]
-    (str "http://localhost/" (:type document) "/" (:id document))))
+  (str "http://localhost/" (.getType link) "/" (.getId link)))
 
 (deftest render-fragments
 
@@ -16,40 +15,40 @@
     (let [doc (get-by-id micro "UrDcEAEAAKUbpbND")
           expected (str
                      "<section data-field=\"desc\"><p>Just testing another field in a group section.</p></section>\n"
-                     "<section data-field=\"linktodoc\"><a href=\"http://localhost//\">installing-meta-micro</a></section>"
-                     "<section data-field=\"linktodoc\"><a href=\"http://localhost//\">using-meta-micro</a></section>")]
+                     "<section data-field=\"linktodoc\"><a href=\"http://localhost/doc/UrDejAEAAFwMyrW9\">installing-meta-micro</a></section>"
+                     "<section data-field=\"linktodoc\"><a href=\"http://localhost/doc/UrDmKgEAALwMyrXA\">using-meta-micro</a></section>")]
       (is (= expected (render (get-fragment doc :docchapter.docs) resolver)))))
 
-;  (testing "render image"
-;    (let [doc (get-by-bookmark lbc :stores)
-;          html (render/image (get-fragment doc :image))
-;          url "https://prismic-io.s3.amazonaws.com/lesbonneschoses/946cdd210d5f341df7f4d8c7ec3d48adbf7a9d65.jpg"]
-;      (is (= (str "<img alt=\"\" src=\"" url "\" width=\"1500\" height=\"500\" />") html))))
-;
-;  (testing "render image view"
-;    (let [doc (get-by-id public "Uyr9sgEAAGVHNoFZ")
-;          html (render/image-view (get-fragment doc :illustration) :icon)
-;          url "https://prismic-io.s3.amazonaws.com/test-public/9f5f4e8a5d95c7259108e9cfdde953b5e60dcbb6.jpg"]
-;      (is (= (str "<img alt=\"some alt text\" src=\"" url "\" width=\"100\" height=\"100\" />") html))))
-;
-;  (testing "render document link"
-;    (let [doc (get-by-id lbc "UkL0gMuvzYUANCpi")
-;          html (render/document-link (get-fragment doc :location) resolver)
-;          url "http://localhost/store/UkL0gMuvzYUANCpW"]
-;      (is (= (str "<a href=\"" url "\">new-york-fifth-avenue</a>") html))))
-;
-;  (testing "render web link"
-;    (let [doc (get-by-id public "Uy4VGQEAAPQzRDR9")
-;          html (render/web-link (get-fragment doc :related))
-;          url "https://github.com/prismicio"]
-;      (is (= (str "<a href=\"" url "\">" url "</a>") html))))
-;
-;  (testing "render file link"
-;    (let [doc (get-by-id public "Uy4VGQEAAPQzRDR9")
-;          html (render/file-link (get-fragment doc :download))
-;          url "https://prismic-io.s3.amazonaws.com/test-public%2Feb14f588-07b4-4df7-be43-5b6f6383d202_ambiance-radio.m3u"]
-;      (is (= (str "<a href=\"" url "\">ambiance-radio.m3u</a>") html))))
-;
+  (testing "render image"
+    (let [doc (get-by-bookmark lbc :stores)
+          html (render (get-fragment doc :article.image) resolver)
+          url "https://prismic-io.s3.amazonaws.com/lesbonneschoses/946cdd210d5f341df7f4d8c7ec3d48adbf7a9d65.jpg"]
+      (is (= (str "<img alt=\"\" src=\"" url "\" width=\"1500\" height=\"500\" />") html))))
+
+  (testing "render image view"
+    (let [doc (get-by-id public "Uyr9sgEAAGVHNoFZ")
+          html (-> doc (get-fragment :article.illustration) (image-view :icon) (render resolver))
+          url "https://prismic-io.s3.amazonaws.com/test-public/9f5f4e8a5d95c7259108e9cfdde953b5e60dcbb6.jpg"]
+      (is (= (str "<img alt=\"some alt text\" src=\"" url "\" width=\"100\" height=\"100\" />") html))))
+
+  (testing "render document link"
+    (let [doc (get-by-id lbc "UlfoxUnM0wkXYXbs")
+          html (render (get-fragment doc :job-offer.location) resolver)
+          url "http://localhost/store/UlfoxUnM0wkXYXbc"]
+      (is (= (str "<a href=\"" url "\">new-york-fifth-avenue</a>") html))))
+
+  (testing "render web link"
+    (let [doc (get-by-id public "Uy4VGQEAAPQzRDR9")
+          html (render (get-fragment doc :test-link.related))
+          url "https://github.com/prismicio"]
+      (is (= (str "<a href=\"" url "\">" url "</a>") html))))
+
+  (testing "render file link"
+    (let [doc (get-by-id public "Uy4VGQEAAPQzRDR9")
+          html (render (get-fragment doc :test-link.download))
+          url "https://prismic-io.s3.amazonaws.com/test-public%2Feb14f588-07b4-4df7-be43-5b6f6383d202_ambiance-radio.m3u"]
+      (is (= (str "<a href=\"" url "\">ambiance-radio.m3u</a>") html))))
+
 ;  (testing "render number"
 ;    (let [doc (get-by-id lbc "UkL0gMuvzYUANCpT")
 ;          html (render/number (get-fragment doc :price))]
