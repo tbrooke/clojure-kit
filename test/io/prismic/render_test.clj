@@ -49,21 +49,21 @@
           url "https://prismic-io.s3.amazonaws.com/test-public%2Feb14f588-07b4-4df7-be43-5b6f6383d202_ambiance-radio.m3u"]
       (is (= (str "<a href=\"" url "\">ambiance-radio.m3u</a>") html))))
 
-;  (testing "render number"
-;    (let [doc (get-by-id lbc "UkL0gMuvzYUANCpT")
-;          html (render/number (get-fragment doc :price))]
-;      (is (= "<span class=\"number\">3.0</span>" html))))
-;
-;  (testing "render color"
-;    (let [doc (get-by-id lbc "UkL0gMuvzYUANCpT")
-;          html (render/color (get-fragment doc :color))]
-;      (is (= "<span class=\"color\">#f9001b</span>" html))))
-;
-;  (testing "render date"
-;    (let [fragment (json-mock "date_fragment.json")
-;          html (render/date fragment)]
-;      (is (= "<span class=\"date\">2013/08/17</span>" html))))
-;
+  (testing "render number"
+    (let [doc (get-by-id lbc "UlfoxUnM0wkXYXbF")
+          html (render (get-fragment doc :product.price))]
+      (is (= "<span class=\"number\">3.0</span>" html))))
+
+  (testing "render color"
+    (let [doc (get-by-id lbc "UlfoxUnM0wkXYXbF")
+          html (render (get-fragment doc :product.color))]
+      (is (= "<span class=\"color\">#fa001b</span>" html))))
+
+  (testing "render date"
+    (let [fragment (io.prismic.Fragment$Date. (org.joda.time.LocalDate. 2013 8 17))
+          html (render fragment)]
+      (is (= "<time>2013-08-17</time>" html))))
+
 ;  (testing "render date with custom pattern"
 ;    (let [fragment (json-mock "date_fragment.json")
 ;          html (render/date fragment "dd.MM.yyyy")]
