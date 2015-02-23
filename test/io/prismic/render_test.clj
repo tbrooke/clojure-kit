@@ -1,26 +1,25 @@
-;(ns io.prismic.render-test
-;  (:require [clojure.test :refer :all]
-;            [io.prismic.test-utils :refer :all]
-;            [io.prismic.render :as render]
-;            [io.prismic.structured :as structured]
-;            [io.prismic.api :refer :all]))
-;
-;(def lbc (get-api "https://lesbonneschoses.prismic.io/api"))
-;(def public (get-api "https://test-public.prismic.io/api"))
-;(def micro (get-api "https://micro.prismic.io/api"))
-;(defn- resolver [link]
-;  (let [document (-> link :value :document)]
-;    (str "http://localhost/" (:type document) "/" (:id document))))
-;
-;(deftest render-fragments
-;
-;  (testing "render group"
-;    (let [doc (get-by-id micro "UrDcEAEAAKUbpbND")
-;          expected (str "<section data-field=\"linktodoc\"><a href=\"http://localhost/doc/UrDejAEAAFwMyrW9\">installing-meta-micro</a></section>\n"
-;                        "<section data-field=\"desc\"><p>Just testing another field in a group section.</p></section>\n"
-;                        "<section data-field=\"linktodoc\"><a href=\"http://localhost/doc/UrDmKgEAALwMyrXA\">using-meta-micro</a></section>")]
-;      (is (= expected (render/group (get-fragment doc :docs) resolver)))))
-;
+(ns io.prismic.render-test
+  (:require [clojure.test :refer :all]
+            [io.prismic.test-utils :refer :all]
+            [io.prismic.api :refer :all]))
+
+(def lbc (get-api "https://lesbonneschoses.prismic.io/api"))
+(def public (get-api "https://test-public.prismic.io/api"))
+(def micro (get-api "https://micro.prismic.io/api"))
+(defn- resolver [link]
+  (let [document (-> link :value :document)]
+    (str "http://localhost/" (:type document) "/" (:id document))))
+
+(deftest render-fragments
+
+  (testing "render group"
+    (let [doc (get-by-id micro "UrDcEAEAAKUbpbND")
+          expected (str
+                     "<section data-field=\"desc\"><p>Just testing another field in a group section.</p></section>\n"
+                     "<section data-field=\"linktodoc\"><a href=\"http://localhost//\">installing-meta-micro</a></section>"
+                     "<section data-field=\"linktodoc\"><a href=\"http://localhost//\">using-meta-micro</a></section>")]
+      (is (= expected (render (get-fragment doc :docchapter.docs) resolver)))))
+
 ;  (testing "render image"
 ;    (let [doc (get-by-bookmark lbc :stores)
 ;          html (render/image (get-fragment doc :image))
@@ -88,4 +87,6 @@
 ;  (testing "render embed"
 ;    (let [doc (get-by-bookmark public :links)
 ;          html (render/embed (get-fragment doc :embed))]
-;      (is (= "<div data-oembed=\"https://gist.github.com/srenault/71b4f1e62783c158f8af\" data-oembed-type=\"rich\" data-oembed-provider=\"github\"><script src=\"https://gist.github.com/srenault/71b4f1e62783c158f8af.js\"></script></div>" html)))))
+;     (is (= "<div data-oembed=\"https://gist.github.com/srenault/71b4f1e62783c158f8af\" data-oembed-type=\"rich\" data-oembed-provider=\"github\"><script src=\"https://gist.github.com/srenault/71b4f1e62783c158f8af.js\"></script></div>" html))))
+;
+    )

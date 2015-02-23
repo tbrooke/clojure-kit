@@ -63,10 +63,10 @@
       (is= text "Don't be a stranger!")))
 )
 
-  (testing "find by bookmark in a future released"
-    (let [doc (get-by-bookmark test-repo "VDP8USsAACsAg3jK" :home)
-          text (-> (get-fragment doc :title) :value first :text)]
-      (is= text "Released in the future")))
+;  (testing "find by bookmark in a future released"
+;    (let [doc (get-by-bookmark test-repo "VDP8USsAACsAg3jK" :home)
+;          text (-> (get-fragment doc :title) :value first :text)]
+;      (is= text "Released in the future")))
 
 (deftest select-fragments
   (let [job (get-by-id lbc "UlfoxUnM0wkXYXbs")

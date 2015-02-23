@@ -55,6 +55,16 @@
   ([api ref name] (get-by-id api ref (get-bookmark api name)))
   )
 
+; Link Resolver and rendering
+
+(defn link-resolver [resolveLink]
+  (reify io.prismic.LinkResolver
+          (^String resolve [this ^io.prismic.Fragment$DocumentLink link] (resolveLink link))
+          (^String resolve [this ^io.prismic.Document document] (resolveLink (.asDocumentLink document)))
+          ))
+
+(defn render [fragment linkResolver] (.asHtml fragment (link-resolver linkResolver)))
+
 ; Response
 
 (defn results-size [response] (.getTotalResultsSize response))
