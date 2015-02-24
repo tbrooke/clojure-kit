@@ -64,28 +64,25 @@
           html (render fragment)]
       (is (= "<time>2013-08-17</time>" html))))
 
-;  (testing "render date with custom pattern"
-;    (let [fragment (json-mock "date_fragment.json")
-;          html (render/date fragment "dd.MM.yyyy")]
-;      (is (= "<span class=\"date\">17.08.2013</span>" html))))
-;
-;  (testing "render text"
-;    (let [doc (get-by-id lbc "UkL0gMuvzYUANCpn")
-;          html (render/text (get-fragment doc :author))]
-;      (is (= "<span class=\"text\">Tsutomu Kabayashi, Pastry Dresser</span>" html))))
-;
-;  (testing "render document"
-;    (let [doc (json-mock "document.json")
-;          expected "<p>Initially started in Paris in 1992, we are now present in <strong>Paris, London, Tokyo and New York</strong>, so you may be lucky with a <em>Les Bonnes Choses</em> shop in your town. We always welcome in our shops the most interested to discover new pastry sensations, and we thrive as we advise you towards your next taste adventures.</p>\n\n<p>If you'd like to challenge us, learn that we like to be challenged! You can place a special order, defining roughly what tastes you like, and how you would like your order to make you feel, and we take it from there!</p>"]
-;      (is (= (render/document doc resolver) expected))))
-;
+  (testing "render text"
+    (let [doc (get-by-id lbc "UlfoxUnM0wkXYXbm")
+          html (render (get-fragment doc :blog-post.author))]
+      (is (= "<span class=\"text\">Tsutomu Kabayashi, Pastry Dresser</span>" html))))
+
+  (testing "render document"
+    (let [doc (io.prismic.Document/parse (json-mock "document.json"))
+          expected
+          "<section data-field=\"product.name\"><h1>Vanilla Macaron</h1></section>\n<section data-field=\"product.short_lede\"><h2>Crispiness and softness, rolled into one</h2></section>\n<section data-field=\"product.description\"><p>Experience the ultimate vanilla experience. Our vanilla Macarons are made with our very own (in-house) <strong>pure extract of Madagascar vanilla</strong>, and subtly dusted with <strong>our own vanilla sugar</strong> (which we make from real vanilla beans).</p></section>\n<section data-field=\"product.location\"></section>\n<section data-field=\"product.image\"><img alt=\"Alternative text to image\" src=\"https://wroomio.s3.amazonaws.com/lesbonneschoses/0417110ebf2dc34a3e8b7b28ee4e06ac82473b70.png\" width=\"500\" height=\"500\" /></section>\n<section data-field=\"product.allergens\"><span class=\"text\">Contains almonds, eggs, milk</span></section>\n<section data-field=\"product.price\"><span class=\"number\">3.55</span></section>\n<section data-field=\"product.flavour[0]\"><span class=\"text\">Vanilla</span></section>\n<section data-field=\"product.color\"><span class=\"color\">#ffeacd</span></section>\n<section data-field=\"product.related[0]\"><a href=\"http://localhost/product/UdUjvt_mqVNObPeO\">dark-chocolate-macaron</a></section>\n<section data-field=\"product.related[1]\"><a href=\"http://localhost/product/UdUjsN_mqT1ObPeM\">salted-caramel-macaron</a></section>\n<section data-field=\"product.testimonial_author[0]\"><h3>Chef Guillaume Bort</h3></section>\n<section data-field=\"product.testimonial_quote[0]\"><p>The taste of pure vanilla is very hard to tame, and therefore, most cooks resort to substitutes. <strong>It takes a high-skill chef to know how to get the best of tastes, and </strong><strong><em>Les Bonnes Choses</em></strong><strong>'s vanilla macaron does just that</strong>. The result is more than a success, it simply is a gastronomic piece of art.</p></section>\n<section data-field=\"product.some_timestamp\"></section>\n<section data-field=\"product.linked_images\"><p>Here is some introductory text.</p><p>The following image is linked.</p><p class=\"block-img\"><a href=\"http://google.com/\"><img alt=\"\" src=\"http://fpoimg.com/129x260\" width=\"260\" height=\"129\" /></a></p><p><strong>More important stuff</strong></p><p>One more image, this one is not linked:</p><p class=\"block-img\"><img alt=\"\" src=\"http://fpoimg.com/199x300\" width=\"300\" height=\"199\" /></p></section>"]
+      (is (= (render doc resolver) expected))))
+
 ;  (testing "render select"
-;    (let [html (render/select (json-mock "select_fragment.json"))]
+;    (let [fragment (-> (json-mock "select_fragment.json") (.get "value") io.prismic.Fragment$Text/parse)
+;           html (render fragment)]
 ;      (is (= "<span class=\"text\">&amp;my &lt;value&gt; #abcde</span>" html))))
-;
-;  (testing "render embed"
-;    (let [doc (get-by-bookmark public :links)
-;          html (render/embed (get-fragment doc :embed))]
-;     (is (= "<div data-oembed=\"https://gist.github.com/srenault/71b4f1e62783c158f8af\" data-oembed-type=\"rich\" data-oembed-provider=\"github\"><script src=\"https://gist.github.com/srenault/71b4f1e62783c158f8af.js\"></script></div>" html))))
-;
+
+  (testing "render embed"
+    (let [doc (get-by-bookmark public :links)
+          html (render (get-fragment doc :test-link.embed))]
+     (is (= "<div data-oembed=\"https://gist.github.com/srenault/71b4f1e62783c158f8af\" data-oembed-type=\"rich\" data-oembed-provider=\"github\"><script src=\"https://gist.github.com/srenault/71b4f1e62783c158f8af.js\"></script></div>" html))))
+
     )
