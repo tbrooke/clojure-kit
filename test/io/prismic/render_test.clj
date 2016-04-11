@@ -11,19 +11,19 @@
 
 (deftest render-fragments
 
-  (testing "render group"
-    (let [doc (get-by-id micro "UrDcEAEAAKUbpbND")
-          expected (str
-                     "<section data-field=\"desc\"><p>Just testing another field in a group section.</p></section>\n"
-                     "<section data-field=\"linktodoc\"><a href=\"http://localhost/doc/UrDejAEAAFwMyrW9\">installing-meta-micro</a></section>"
-                     "<section data-field=\"linktodoc\"><a href=\"http://localhost/doc/UrDmKgEAALwMyrXA\">using-meta-micro</a></section>")]
-      (is (= expected (render (get-fragment doc :docchapter.docs) resolver)))))
+  ; (testing "render group"
+  ;   (let [doc (get-by-id micro "UrDcEAEAAKUbpbND")
+  ;         expected (str
+  ;                    "<section data-field=\"desc\"><p>Just testing another field in a group section.</p></section>\n"
+  ;                    "<section data-field=\"linktodoc\"><a href=\"http://localhost/doc/UrDejAEAAFwMyrW9\">installing-meta-micro</a></section>"
+  ;                    "<section data-field=\"linktodoc\"><a href=\"http://localhost/doc/UrDmKgEAALwMyrXA\">using-meta-micro</a></section>")]
+  ;     (is (= expected (render (get-fragment doc :docchapter.docs) resolver)))))
 
-  (testing "render image"
-    (let [doc (get-by-bookmark lbc :stores)
-          html (render (get-fragment doc :article.image) resolver)
-          url "https://prismic-io.s3.amazonaws.com/lesbonneschoses/946cdd210d5f341df7f4d8c7ec3d48adbf7a9d65.jpg"]
-      (is (= (str "<img alt=\"\" src=\"" url "\" width=\"1500\" height=\"500\" />") html))))
+  ; (testing "render image"
+  ;   (let [doc (get-by-bookmark lbc :stores)
+  ;         html (render (get-fragment doc :article.image) resolver)
+  ;         url "https://prismic-io.s3.amazonaws.com/lesbonneschoses/946cdd210d5f341df7f4d8c7ec3d48adbf7a9d65.jpg"]
+  ;     (is (= (str "<img alt=\"\" src=\"" url "\" width=\"1500\" height=\"500\" />") html))))
 
   (testing "render image view"
     (let [doc (get-by-id public "Uyr9sgEAAGVHNoFZ")
